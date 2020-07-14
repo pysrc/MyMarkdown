@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Markdown</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+</head>
+<body>
+	<script src="/js/marked.min.js"></script>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/md5.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/js/monokai_sublime.min.css">
+	<script src="/js/highlight.min.js"></script>
+	<div id="content"></div>
+	<script>
+		var state = {
+			m5: md5("")
+		}
+		hljs.initHighlightingOnLoad();
+		marked.setOptions({
+		    renderer: new marked.Renderer(),
+		    highlight: function (code) {
+			    return hljs.highlightAuto(code).value;
+			}
+		});
+		var source = new EventSource("http://127.0.0.1:7865/sse");
+		source.onmessage = function(e){
+			if(state.m5 !== e.data){
+				state.m5 = e.data;
+				$.ajax({
+					url: "/gmd",
+					success: function(data){
+						document.getElementById('content').innerHTML = marked(data);
+						$("#content").children("pre").each(function(i, block) { // 将代码块背景美化一下
+				                hljs.highlightBlock(block);
+				        });
+					}
+				});
+			}
+		};
+    </script>
+</body>
+</html>

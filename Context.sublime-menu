@@ -1,0 +1,7 @@
+[
+    {
+        "caption": "Markdown Preview", 
+        "command": "md_preview", 
+        "id": "md_preview"
+    }
+]
