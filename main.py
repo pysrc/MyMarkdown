@@ -7,10 +7,25 @@ import urllib.request
 import subprocess
 from urllib import parse
 
+stand_config = None
+my_config = None
+
+
+def get_config(key):
+    global stand_config, my_config
+    if stand_config is None:
+        stand_config = sublime.load_settings("Preferences.sublime-settings")
+    if my_config is None:
+        my_config = sublime.load_settings("MyMarkdown.sublime-settings")
+    val = stand_config.get(key)
+    if val is None:
+        val = my_config.get(key)
+    return val
+
 
 def sendmd(view):
     name = view.file_name()
-    if name is not None and not name.endswith((".md", ".MD")):
+    if name is not None and not name.lower().endswith(tuple(get_config("suffix"))):
         return
     reg = sublime.Region(0, view.size())
     txt = view.substr(reg)
