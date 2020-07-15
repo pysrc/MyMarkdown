@@ -7,13 +7,12 @@
 <body>
 	<script src="/js/marked.min.js"></script>
 	<script src="/js/jquery.min.js"></script>
-	<script src="/js/md5.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/js/monokai_sublime.min.css">
 	<script src="/js/highlight.min.js"></script>
 	<div id="content"></div>
 	<script>
 		var state = {
-			m5: md5("")
+			m5: ''
 		}
 		hljs.initHighlightingOnLoad();
 		marked.setOptions({
@@ -30,7 +29,7 @@
 					url: "/gmd",
 					success: function(data){
 						document.getElementById('content').innerHTML = marked(data);
-						$("#content").children("pre").each(function(i, block) { // 将代码块背景美化一下
+						$("#content").children("pre").each(function(i, block) { // Beautify the background of the code block
 				                hljs.highlightBlock(block);
 				        });
 					}
