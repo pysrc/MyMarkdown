@@ -73,6 +73,7 @@ class MyHandle(Handle):
         self.scans = scans
         self.scans.append(os.path.dirname(os.path.realpath(__file__)))
         self.content = b''
+        self.title = b'Markdown'
         self.md5 = hashlib.md5(self.content).hexdigest().encode("utf-8")
 
     def getResources(self, relativePath):
@@ -110,9 +111,12 @@ class MyHandle(Handle):
             self.content = request.body
             pd = parse.unquote(request.pathdata.decode("utf-8"))
             pt = os.path.dirname(pd[5:])
+            self.title = os.path.basename(pd[5:]).encode("utf-8")
             self.scans.append(pt)
             self.md5 = hashlib.md5(self.content).hexdigest().encode("utf-8")
             res = response(b'OK')
+        elif request.path == b'/title':
+            res = response(self.title)
         elif request.path == b'/gmd':
             # get markdown
             res = response(self.content)

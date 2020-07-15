@@ -17,6 +17,8 @@
 		hljs.initHighlightingOnLoad();
 		marked.setOptions({
 		    renderer: new marked.Renderer(),
+		    gfm: true,
+		    breaks: true,
 		    highlight: function (code) {
 			    return hljs.highlightAuto(code).value;
 			}
@@ -32,6 +34,12 @@
 						$("#content").children("pre").each(function(i, block) { // Beautify the background of the code block
 				                hljs.highlightBlock(block);
 				        });
+					}
+				});
+				$.ajax({
+					url: "/title",
+					success: function(data){
+						$("title").text(data);
 					}
 				});
 			}
