@@ -9,7 +9,20 @@
 	<script src="/js/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/js/monokai_sublime.min.css">
 	<script src="/js/highlight.min.js"></script>
+	<script id="MathJax-script" async src="/js/mathjax/tex-chtml.js"></script>
 	<div id="content"></div>
+	<script>
+	    MathJax = {
+	      tex: {
+	        inlineMath: [['$', '$'], ['\\(', '\\)']]
+	      },
+	    }
+	    function showMath() {
+	      MathJax.texReset();
+	      MathJax.typesetClear();
+	      MathJax.typesetPromise();
+	    }
+	</script>
 	<script>
 		var state = {
 			m5: ''
@@ -31,6 +44,7 @@
 					url: "/gmd",
 					success: function(data){
 						document.getElementById('content').innerHTML = marked(data);
+						showMath();
 						$("#content").children("pre").each(function(i, block) { // Beautify the background of the code block
 				                hljs.highlightBlock(block);
 				        });
