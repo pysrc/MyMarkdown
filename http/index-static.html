@@ -9,33 +9,22 @@
 	<script src="/js/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/js/monokai_sublime.min.css">
 	<script src="/js/highlight.min.js"></script>
+	<script id="MathJax-script" async src="/js/mathjax/tex-chtml.js"></script>
 	<div id="content"></div>
-  <script>
-  MathJax = {
-    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
-    startup: {
-      ready: function () {
-        MathJax.startup.defaultReady();
-        document.getElementById('render').disabled = false;
-      }
-    }
-  }
-  </script>
-  <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js"></script>
-  <script>
-    function convert() {
-      output = document.getElementById('content');
-      MathJax.texReset();
-      MathJax.typesetClear();
-      MathJax.typesetPromise()
-        .catch(function (err) {
-          output.innerHTML = '';
-          output.appendChild(document.createElement('pre')).appendChild(document.createTextNode(err.message));
-        })
-        .then(function() {
-        });
-    }
-  </script>
+	<script>
+	  MathJax = {
+	    loader: {
+	      load: [
+	        'input/tex-base', '[tex]/newcommand', '[tex]/action',
+	        'output/chtml',
+	        'a11y/explorer'
+	      ]
+	    },
+	    tex: {
+	      inlineMath: [['$', '$'], ['\\(', '\\)']],
+	    }
+	  };
+	</script>
 	<script>
 		var state = {
 			m5: ''
@@ -63,7 +52,6 @@
 						$("#content").children("pre").each(function(i, block) {
 				                hljs.highlightBlock(block);
 				        });
-				        convert();
 					}
 				});
 				$.ajax({
