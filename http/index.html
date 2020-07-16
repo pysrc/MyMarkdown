@@ -18,8 +18,9 @@
 	      },
 	    }
 	    function showMath() {
-	      MathJax.typesetClear();
-	      MathJax.typesetPromise();
+			MathJax.startup.document.state(0);
+			MathJax.texReset();
+			MathJax.typeset();
 	    }
 	</script>
 	<script>
